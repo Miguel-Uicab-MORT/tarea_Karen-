@@ -259,7 +259,7 @@ public class ClientGUI {
             String nombreArchivo = "";
             while ((message = reader.readLine()) != null) {
                 if (message.startsWith("archivo")) {
-                	/* DataInputStream dataIS = new DataInputStream (socket.getInputStream()); 
+                	DataInputStream dataIS = new DataInputStream (socket.getInputStream()); 
                 	int nombreFLong = dataIS.readInt();
             		if (nombreFLong > 0) {
             			byte [] nombreArchivoBytes = new byte [nombreFLong];
@@ -290,8 +290,8 @@ public class ClientGUI {
             				misArchivos.add(new ArchivoE(idArchivo, nombreArchivo, contenidoArchivoBytes, getExtensionArchivo (nombreArchivo)));
             				idArchivo++; 
             			} 
-            		} */
-                    textAreaChat.append(username + " Nenvió un archivo: " + nombreArchivo + "\n");
+            		}
+                    textAreaChat.append(username + " LISTOenvió un archivo: " + nombreArchivo + "\n");
                 } else {
                     // Si el mensaje no comienza con "#archivo:", entonces es un mensaje de texto normal
                 	textAreaChat.append(message + "CM\n");
@@ -393,7 +393,7 @@ public class ClientGUI {
 		frameA.setSize(400,400);
 		frameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameA.setLocationRelativeTo(null);
-        frameA.setResizable(false);
+        frameA.setResizable(true);
 		JPanel panelA = new JPanel ();
 		panelA.setLayout (new BoxLayout (panelA, BoxLayout.Y_AXIS));
 		

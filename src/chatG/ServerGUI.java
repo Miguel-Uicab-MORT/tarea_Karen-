@@ -176,6 +176,7 @@ public class ServerGUI extends JFrame{
                 // LEE MENSAJES DEL CLIENTE Y LOS EMITE A LOS DEMÁS CLIENTES
                 String message;
                 String nombreArchivo = "";
+                byte [] contenidoArchivoBytes = null;
                 while ((message = reader.readLine()) != null) {
                     if (message.startsWith("archivo")) {
                         // String filename = message.substring(7);
@@ -187,7 +188,7 @@ public class ServerGUI extends JFrame{
                 			nombreArchivo = new String (nombreArchivoBytes);
                 			int contenidoFLong = dataIS.readInt();
                 			if (contenidoFLong > 0) {
-                				byte [] contenidoArchivoBytes = new byte [contenidoFLong];
+                				contenidoArchivoBytes = new byte [contenidoFLong];
                 				dataIS.readFully(contenidoArchivoBytes, 0, contenidoArchivoBytes.length);
                 				JPanel jpRenglonArchivo = new JPanel();
                 				jpRenglonArchivo.setLayout(new BoxLayout(jpRenglonArchivo, BoxLayout.Y_AXIS));
@@ -208,8 +209,14 @@ public class ServerGUI extends JFrame{
                 					frameS.validate();
                 				} 
                 				misArchivos.add(new ArchivoE(idArchivo, nombreArchivo, contenidoArchivoBytes, getExtensionArchivo (nombreArchivo)));
-                				idArchivo++;
+                				idArchivo++;                		
                 			}
+                			broadcast("archivo");
+    						DataOutputStream dataOS = new DataOutputStream (socket.getOutputStream());
+    						dataOS.writeInt(nombreArchivoBytes.length);
+    						dataOS.write(nombreArchivoBytes);
+    						dataOS.writeInt(contenidoArchivoBytes.length);
+    						dataOS.write(contenidoArchivoBytes);
                 		}
                         textAreaS.append(username + " envió un archivo: " + nombreArchivo + "\n");
                         broadcast("archivo" + username + " Senvió un archivo: " + nombreArchivo + "\n");
@@ -240,7 +247,7 @@ public class ServerGUI extends JFrame{
 		frameA.setSize(400,400);
 		frameA.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameA.setLocationRelativeTo(null);
-        frameA.setResizable(false);
+        frameA.setResizable(true);
 		JPanel panelA = new JPanel ();
 		panelA.setLayout (new BoxLayout (panelA, BoxLayout.Y_AXIS));
 		
